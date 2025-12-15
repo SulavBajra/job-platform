@@ -15,8 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('job_post_id')->constrained()->cascadeOnDelete();
             $table->foreignId('employee_id')->constrained()->cascadeOnDelete();
-            $table->string('file');
+            $table->string('file')->nullable();
             $table->timestamps();
+            $table->unique(['job_post_id', 'employee_id']);
         });
     }
 

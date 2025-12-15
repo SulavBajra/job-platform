@@ -2,64 +2,44 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\jobPost;
+use App\Models\JobPost;
 use Illuminate\Http\Request;
+use App\Models\Employer;
 
 class JobPostController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
+  public function createJobPost(Request $request){
+    $employer = $request->user();
+
+    if(!Employer::findOrFail($employer->id)){
+        return response()->json([
+            'message'=>'UnAuthenticated'
+        ],302);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
+    $data = $request->validate([
+        'title'=>'required|string',
+        'type'=>'nullable|string',
+        'salary'=>'required|string',
+        'description'=>'required',
+        'location'=>'required|string',
+        'deadline'=>'nullable|date',
+    ]);
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(jobPost $jobPost)
-    {
-        //
-    }
+    $post = JobPost::create([
+        'employer_id'=>$employer->id,
+        'title'=>$data['title'],
+        'type'=>$data['type'],
+        'salary'=>$data['salary'],
+        'description'=>$data['description'],
+        'location'=>$data['location'],
+        'deadline'=>$data['deadline'],
+    ]);
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(jobPost $jobPost)
-    {
-        //
-    }
+    return response()->json([
+        'message'=>'Created Post'
+    ]);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, jobPost $jobPost)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(jobPost $jobPost)
-    {
-        //
-    }
+  }
 }

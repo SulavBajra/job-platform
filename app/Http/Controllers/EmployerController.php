@@ -7,59 +7,48 @@ use Illuminate\Http\Request;
 
 class EmployerController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+   
     public function index()
     {
-        //
+        return response()->json(Employee::paginate(10));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+    public function showProfile(Request $request){
+        return response()->json($request->user());
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+    public function updateProfile(Request $request){
+        $data = $request->validate([
+            'description' => 'nullable|string',
+            'location'=> 'nullable|string',
+        ]);
+
+        $employeer = $request->user();
+        $employer->update($data);
+
+        return response()->json([
+            'message' => 'Profile Updated',
+        ]);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Employer $employer)
-    {
-        //
+    public function editProfile(Request $request){
+        $data = $request->validate([
+            'companyName'=> 'required|string',
+            'email'=> 'required|email|unique:employees',
+            'phone'=> 'required|min:10|max:10',
+            'description' => 'nullable|string',
+            'location'=> 'nullable|string',
+        ]);
+
+        $employer = $request->user();
+        $employer->update($data);
+        $employer->refresh();
+
+        return response()->json([
+            'message' => 'Profile Updated',
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Employer $employer)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Employer $employer)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Employer $employer)
-    {
-        //
-    }
+    
 }

@@ -9,14 +9,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class JobApplication extends Model
 {
-    protected $fllable=['file','job_post_id','employee_id'];
+    protected $fillable=['file','job_post_id','employee_id'];
 
-    public function employees(): BelongsTo
+    public function employee(): BelongsTo
     {
         return $this->belongsTo(Employee::class);
     }
 
-    public function jobPosts(): BelongsTo
+    public function jobPost(): BelongsTo
     {
         return $this->belongsTo(JobPost::class);
     }

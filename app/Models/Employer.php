@@ -13,7 +13,7 @@ class Employer extends Authenticatable
     use HasApiTokens;
 
     protected $fillable = ['companyName','password','location','description','phone','email'];
-    protected $hidden = ['password'];
+    protected $hidden = ['password','remember_token'];
 
     public function jobPosts(): HasMany
     {
