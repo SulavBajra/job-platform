@@ -1,0 +1,2 @@
+GET http://localhost:8000/api/employee/profile
+Authorization: : Bearer 2|cywqzMrrJZZsE10ORdqS6OAxtNPUdC5XxaNwbJCA318083e7
