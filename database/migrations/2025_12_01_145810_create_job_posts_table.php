@@ -13,22 +13,25 @@ return new class extends Migration
     {
         Schema::create('job_posts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('employer_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('employer_id')->constrained('employers')->cascadeOnDelete();
             $table->string('title');
             $table->string('type')->default('full-time');
             $table->string('salary');
             $table->text('description');
             $table->string('location');
             $table->dateTime('deadline')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
 
+    
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
         Schema::dropIfExists('job_posts');
+        
     }
 };

@@ -11,12 +11,6 @@ class JobPostController extends Controller
   public function createJobPost(Request $request){
     $employer = $request->user();
 
-    if(!Employer::findOrFail($employer->id)){
-        return response()->json([
-            'message'=>'UnAuthenticated'
-        ],302);
-    }
-
     $data = $request->validate([
         'title'=>'required|string',
         'type'=>'nullable|string',
@@ -42,4 +36,23 @@ class JobPostController extends Controller
     ]);
 
   }
+
+  public function deleteJobPost($postId){
+
+    $post = JobPost::find($postId);
+
+    if(!$post){
+        return response()->json([
+            'message'=>'Post not Found'
+        ],409);
+    }
+
+    $post->delete();
+
+    return response()->json([
+        'message'=>'Deleted Post'
+    ]);
+
+  }
+
 }
