@@ -5,9 +5,9 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use App\Models\Employee;
+use App\Models\Employer;
 
-class CheckIfEmployee
+class CheckIfEmployer
 {
     /**
      * Handle an incoming request.
@@ -15,9 +15,9 @@ class CheckIfEmployee
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
     public function handle(Request $request, Closure $next): Response
-    {
+    {   
         $user = $request->user();
-        if(!$user || !$user instanceof Employee){
+        if(!$user || !$user instanceof Employer){
             return response()->json([
                 'message' => 'Restricted',
             ],403);

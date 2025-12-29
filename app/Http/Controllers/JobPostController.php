@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\JobPost;
 use Illuminate\Http\Request;
 use App\Models\Employer;
+use App\Http\Resources\JobPostResource;
 
 class JobPostController extends Controller
 {
@@ -39,7 +40,7 @@ class JobPostController extends Controller
 
   public function deleteJobPost($postId){
 
-    $post = JobPost::find($postId);
+    $post = JobPost::findOrFail($postId);
 
     if(!$post){
         return response()->json([
@@ -53,6 +54,22 @@ class JobPostController extends Controller
         'message'=>'Deleted Post'
     ]);
 
+  }
+
+  public function viewAllJobs(){
+    $posts = JobPost::with('employer')->get();
+    if(!$posts){
+        return response()->json('No Job Post Found');
+    }
+    return JobPostResource::collection($posts);
+  }
+
+  public function show($postId){
+    $post = JobPost::with('employer')->find($postId);
+    if(!$post){
+        return response()->json('No Job Post Found');
+    }
+    return new JobPostResource($post);
   }
 
 }

@@ -4,17 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Employee;
 use Illuminate\Http\Request;
+use App\Http\Resources\EmployeeResource;
 
 class EmployeeController extends Controller
 {
-  
-    public function index()
-    {
-        return response()->json(Employee::paginate(10));
-    }
-
     public function showProfile(Request $request){
-        return response()->json($request->user());
+
+        return new EmployeeResource($request->user());
     }
 
     public function updateProfile(Request $request){

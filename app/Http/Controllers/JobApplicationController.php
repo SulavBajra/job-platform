@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\JobApplication;
 use Illuminate\Http\Request;
 use App\Models\Employee;
+use App\Http\Resources\JobApplicationResource;
 
 class JobApplicationController extends Controller
 {
@@ -25,4 +26,17 @@ class JobApplicationController extends Controller
 
       return response()->json(['message'=>'Succesfully Applied']);
    }
+
+   public function viewApplications(Request $request){
+      $employer = $request->user();
+
+      $applications = JobApplication::with('employee')->get();
+
+      if(!$applications){
+         return response()->json("No Applications Yet");
+      }
+
+      return JobApplicationResource::collection($applications);
+   }
+
 }
